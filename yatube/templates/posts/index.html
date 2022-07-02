@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+Последние обновления на сайте
+{% endblock %}
+{% load thumbnail %}
+{% load cache %}
+{% block content %}
+
+{% cache 5 index_page page_obj.number %}
+
+<!-- класс py-5 создает отступы сверху и снизу блока -->
+<div class="container">
+  {% include 'posts/includes/switcher.html' %}
+  <h1>Последние обновления на сайте</h1>
+
+    {% for post in page_obj %}
+    <ul>
+      <li>
+        Автор: <a href="{% url 'posts:profile' username=post.author %}">{{ post.author.get_full_name }}</a>
+      </li>
+      <li>
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
+    {% if user == post.author %}
+    <a class="btn btn-primary" href="{% url 'posts:post_edit' post_id=post.pk %}">
+      Редактировать запись
+    </a>
+    {% endif %}
+    {% thumbnail post.image "1000" crop="center" as im %}
+    <img class="main_img" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+    {% endthumbnail %}
+    <p>{{ post.text }}</p>
+    <a class="btn btn-primary" href="{% url 'posts:post_detail' post.pk %}">подробная информация</a>
+    {% if post.group %}
+    <a class="btn btn-primary" href="{% url 'posts:group_posts' slug=post.group.slug %}">все записи группы</a>
+    {{post.group}}
+    {% endif %}
+    {% if not forloop.last %}
+    <hr>{% endif %}
+    {% endfor %}
+    {% endcache %}
+    <!-- под последним постом нет линии -->
+    {% include 'posts/includes/paginator.html' %}
+</div>
+{% endblock %}

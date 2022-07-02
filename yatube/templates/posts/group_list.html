@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ group.title }}
+
+{% endblock %}
+{% load thumbnail %}
+{% block content %}
+<!-- класс py-5 создает отступы сверху и снизу блока -->
+<div class="container">
+  <h1>{{ group.title }}</h1>
+  <p>
+    {{ group.description }}
+  </p>
+  <article>
+    {% for post in page_obj %}
+    <ul>
+      <li>
+        Автор: {{ post.author.get_full_name }}
+      </li>
+      <li>
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
+    {% thumbnail post.image "200x200" crop="center" as im %}
+      <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      {% endthumbnail %}
+    <p>{{ post.text }}</p>
+    {% if not forloop.last %}
+    <hr>{% endif %}
+    {% endfor %}
+  </article>
+  <!-- под последним постом нет линии -->
+  {% include 'posts/includes/paginator.html' %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+<!-- templates/about/tech.html -->
+{% extends "base.html" %}
+{% block title %}Технологии{% endblock %}
+{% block content %}
+{% comment %} Колонки с отступом сверху и снизу {% endcomment %}
+<div class="container">
+  <h1 class="author_h1">Привет, я автор</h1>
+  <div class="main-autor">
+    <div class="desc_main-autor">
+      Мои скромные знания
+    </div>
+    <div class="know col">
+      CSS
+    </div>
+    <div class="know col">
+      HTML
+    </div>
+    <div class="know col">
+      Js
+    </div>
+    <div class="know col">
+      Django
+    </div>
+    <div class="know col">
+      Python
+    </div>
+    <div class="know col">
+      Php
+    </div>
+
+    {% comment %}
+    Боковой блок со списком технологий
+    Займет всю ширину блока на мобильном
+    и 25% при размерах экрана ≥768px
+    {% endcomment %}
+  </div>
+</div>
+
+{% endblock %}
